@@ -1,299 +1,412 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
+    <meta charset="UTF-8">
+    <title>智行安全课题组</title>
 
-<meta charset="UTF-8">
-<title>智行安全课题组</title>
+    <style>
+        /* ===================== 全局页面基础样式 ===================== */
+        body {
+            margin: 0;
+            font-family: "Microsoft YaHei";
+            background: #f2f2f2;
+        }
 
-<style>
+        /* ===================== 顶部 Header 区域 ===================== */
+        header {
+            position: relative;
+            background: #0b3d91;
+            color: white;
+            display: flex;
+            align-items: center;
+            padding: 30px 80px;
+            overflow: hidden;
+        }
 
-/* ===== 页面整体 ===== */
-body {
-    margin: 0;
-    font-family: "Microsoft YaHei";
-}
+        header::before {
+            content: "Intelligent Transportation Safety Research Group";
+            position: absolute;
+            left: 80px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 52px;
+            font-weight: 900;
+            color: rgba(255,255,255,0.05);
+            white-space: nowrap;
+            z-index: 0;
+        }
 
-/* ===== 顶部标题区域（含Logo） ===== */
-header {
-    background: #0b3d91;
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-}
+        .logo {
+            height: 90px;
+            margin-right: 25px;
+            z-index: 1;
+        }
 
-/* Logo样式 */
-.logo {
-    height: 80px;
-    margin-right: 20px;
-}
+        .header-text { z-index: 1; }
 
-/* 标题文字区域 */
-.header-text {
-    text-align: left;
-}
+        .header-text h1 {
+            margin: 0;
+            font-size: 30px;
+        }
 
-/* ===== 导航栏 ===== */
-nav {
-    position: relative;
-    z-index: 1000;
-}
+        .header-text .en {
+            margin-top: 8px;
+            font-size: 18px;
+        }
 
-.menu {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    background: #062c6b;
-}
+        .header-text .cn {
+            margin-top: 5px;
+            font-size: 16px;
+        }
 
-.menu li {
-    position: relative;
-}
+        /* ===================== 导航栏 ===================== */
+        .menu {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            background: #062c6b;
+        }
 
-.menu > li > a {
-    display: block;
-    padding: 15px 20px;
-    color: white;
-    text-decoration: none;
-}
+        .menu li a {
+            display: block;
+            padding: 15px 20px;
+            color: white;
+            text-decoration: none;
+        }
 
-.menu li:hover {
-    background: #041f4a;
-}
+        .menu li:hover {
+            background: #041f4a;
+        }
 
-/* 下拉菜单 */
-.submenu {
-    display: none;
-    position: absolute;
-    background: #062c6b;
-    list-style: none;
-    padding: 0;
-    min-width: 160px;
-    z-index: 1001;
-}
+        /* ===================== 轮播图 + 公告区域 ===================== */
+        .main-top {
+            display: flex;
+            justify-content: center;
+            padding: 40px 80px;
+            gap: 40px;
+        }
 
-.submenu li a {
-    display: block;
-    padding: 10px;
-    color: white;
-    text-decoration: none;
-}
+        .slider-container { width: 65%; }
 
-.dropdown:hover .submenu {
-    display: block;
-}
+        .slider {
+            height: 360px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+        }
 
-/* ===== 图片+公告区域 ===== */
-.main-top {
-    display: flex;
-    justify-content: center;
-    padding: 30px;
-    gap: 30px;
-}
+        .slide {
+            width: 100%;
+            height: 360px;
+            object-fit: cover;
+            position: absolute;
+            opacity: 0;
+            transition: opacity 1.2s ease-in-out;
+        }
 
-/* 轮播图 */
-.slider {
-    width: 60%;
-    height: 300px;
-    position: relative;
-    overflow: hidden;
-}
+        .slide.active { opacity: 1; }
 
-.slide {
-    width: 100%;
-    height: 300px;
-    object-fit: cover;
-    position: absolute;
-    top: 0;
-    left: 0;
-    opacity: 0;
-    transition: opacity 1.2s ease-in-out;
-}
+        .prev, .next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0,0,0,0.4);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            cursor: pointer;
+        }
 
-.slide.active {
-    opacity: 1;
-}
+        .prev { left: 10px; }
+        .next { right: 10px; }
 
-.prev, .next {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(0,0,0,0.4);
-    color: white;
-    border: none;
-    padding: 8px 12px;
-    cursor: pointer;
-}
+        .img-caption {
+            text-align: center;
+            margin-top: 12px;
+            font-size: 15px;
+            color: #555;
+        }
 
-.prev { left: 10px; }
-.next { right: 10px; }
+        /* ===================== 公告栏 ===================== */
+        .notice {
+            width: 30%;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
 
-/* 公告 */
-.notice {
-    width: 35%;
-    background: #f5f5f5;
-    padding: 20px;
-    border-radius: 8px;
-}
+        .notice h3 {
+            border-bottom: 2px solid #0b3d91;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
 
-.notice h3 {
-    margin-top: 0;
-    border-bottom: 2px solid #0b3d91;
-    padding-bottom: 10px;
-}
+        @keyframes twinkle {
+            0%,100% { opacity:1; }
+            50% { opacity:0; }
+        }
 
-.notice li {
-    margin-bottom: 12px;
-}
+        .notice-highlight {
+            color: red;
+            font-weight: bold;
+            animation: twinkle 0.5s infinite;
+        }
 
-.notice a {
-    text-decoration: none;
-    color: #333;
-}
+        /* ===================== 公共板块样式 ===================== */
+        .section {
+            background: white;
+            margin: 40px 80px;
+            padding: 40px;
+            border-radius: 10px;
+        }
 
-.notice a:hover {
-    text-decoration: underline;
-    color: #0b3d91;
-}
+        .section h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #0b3d91;
+        }
 
-.notice .highlight a {
-    color: red;
-    font-weight: bold;
-}
+        /* ===================== 科学研究板块 ===================== */
+        .research-grid {
+            display: flex;
+            gap: 30px;
+        }
 
-/* 内容区域 */
-section {
-    padding: 40px;
-    text-align: center;
-}
+        .research-item {
+            flex: 1;
+            background: #f8f9fc;
+            padding: 25px;
+            border-radius: 8px;
+            transition: 0.3s;
+        }
 
-/* 页脚 */
-footer {
-    background: #0b3d91;
-    color: white;
-    text-align: center;
-    padding: 20px;
-}
+        .research-item:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
 
-</style>
+        .research-item h3 {
+            margin-top: 0;
+            color: #062c6b;
+        }
 
+        /* ===================== 关于我们板块 ===================== */
+        .about-list {
+            display: flex;
+            gap: 40px;
+        }
+
+        .about-item {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            background: #f8f9fc;
+            padding: 30px;
+            border-radius: 10px;
+            transition: 0.3s;
+        }
+
+        .about-item:hover {
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .about-photo {
+            width: 180px;
+            height: 220px;
+            object-fit: cover;
+            border-radius: 8px;
+            flex-shrink: 0;
+        }
+
+        .about-info h3 {
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+
+        .about-info a {
+            text-decoration: none;
+            color: #062c6b;
+            font-size: 20px;
+        }
+
+        .about-info a:hover {
+            text-decoration: underline;
+            color: #0b3d91;
+        }
+
+        /* ===================== 页脚 ===================== */
+        footer {
+            background: #0b3d91;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+        }
+    </style>
 </head>
 
 <body>
 
-<!-- ===== 顶部Logo + 标题 ===== -->
 <header>
-
-<img src="banner4.jpg" class="logo">
-
-<div class="header-text">
-<h1>智行安全课题组</h1>
-<p>西华大学 汽车与交通学院 道路交通安全团队</p>
-</div>
-
+    <img src="banner4.jpg" class="logo">
+    <div class="header-text">
+        <h1>智行安全课题组</h1>
+        <div class="en">Intelligent Transportation Safety Research Group</div>
+        <div class="cn">西华大学 汽车与交通学院 道路交通安全团队</div>
+    </div>
 </header>
 
-<!-- ===== 导航栏 ===== -->
-<nav>
 <ul class="menu">
-
-<li><a href="index.html" target="_blank">首页</a></li>
-
-<li class="dropdown">
-<a href="research.html" target="_blank">科学研究</a>
-<ul class="submenu">
-<li><a href="research.html#platform" target="_blank">平台资源</a></li>
-<li><a href="research.html#direction" target="_blank">研究方向</a></li>
-<li><a href="research.html#book" target="_blank">学术著作</a></li>
-<li><a href="research.html#event" target="_blank">赛事活动</a></li>
+    <li><a href="#">首页</a></li>
+    <li><a href="#">科学研究</a></li>
+    <li><a href="#">工程实践</a></li>
+    <li><a href="#">团队成员</a></li>
+    <li><a href="#">团队建设</a></li>
+    <li><a href="#">加入我们</a></li>
 </ul>
-</li>
 
-<li class="dropdown">
-<a href="practice.html" target="_blank">工程实践</a>
-<ul class="submenu">
-<li><a href="practice.html#project" target="_blank">课题研究</a></li>
-<li><a href="practice.html#product" target="_blank">产品开发</a></li>
-</ul>
-</li>
-
-<li class="dropdown">
-<a href="team.html" target="_blank">团队成员</a>
-<ul class="submenu">
-<li><a href="team.html#supervisor" target="_blank">导师</a></li>
-<li><a href="team.html#student" target="_blank">在读研究生</a></li>
-<li><a href="team.html#alumni" target="_blank">毕业生</a></li>
-</ul>
-</li>
-
-<li class="dropdown">
-<a href="culture.html" target="_blank">团队建设</a>
-<ul class="submenu">
-<li><a href="culture.html#meeting" target="_blank">会议学习</a></li>
-<li><a href="culture.html#party" target="_blank">差旅学习</a></li>
-<li><a href="culture.html#trip" target="_blank">休闲聚餐</a></li>
-</ul>
-</li>
-
-</ul>
-</nav>
-
-<!-- 图片+公告 -->
 <div class="main-top">
 
-<div class="slider">
-<img src="banner1.jpg" class="slide active">
-<img src="banner2.jpg" class="slide">
-<img src="banner3.jpg" class="slide">
-<button class="prev" onclick="prevSlide()">❮</button>
-<button class="next" onclick="nextSlide()">❯</button>
+    <!-- 轮播图 -->
+    <div class="slider-container">
+        <div class="slider">
+            <img src="banner1.jpg" class="slide active">
+            <img src="banner2.jpg" class="slide">
+            <img src="banner3.jpg" class="slide">
+            <button class="prev" onclick="changeSlide(-1)">❮</button>
+            <button class="next" onclick="changeSlide(1)">❯</button>
+        </div>
+        <div class="img-caption" id="caption">
+            事故调查与重建实验现场
+        </div>
+    </div>
+
+    <!-- 公告 -->
+    <div class="notice">
+        <h3>近期要闻</h3>
+        <ul>
+            <li class="notice-highlight">欢迎研究生、本科生加入ITS课题组</li>
+	    <li>2026.02 课题组参编国标《智能网联汽车碰撞事故报告与分析技术规范》获批立项</li>
+            <li>2026.01 课题组与国汽智联开展项目合作</li>
+            <li>2025.12 课题组导师谭正平参编省道安委安全风险咨政报告</li>
+            <li>2025.11 课题组导师李平飞出版专著《智能汽车交通事故鉴定》</li>
+            <li>2025.10 课题组参编3项国标公布</li>
+            <li>2025.09 课题组举办智能新能源汽车事故调查与鉴定技术研讨会</li>
+            <li>2025.08 课题组周美伶同学在期刊SENSOR发表论文</li>
+        </ul>
+    </div>
+
 </div>
 
-<div class="notice">
-<h3>最新公告</h3>
-<ul>
-<li class="highlight">
-<a href="notice1.html" target="_blank">欢迎硕士研究生、本科生加入课题组</a>
-</li>
-<li><a href="notice2.html" target="_blank">2026.01 课题组与国汽智联开展课题合作</a></li>
-<li><a href="notice3.html" target="_blank">2025.12 省道安委网约车事故分析调查报告</a></li>
-</ul>
+<!-- 欢迎 -->
+<div class="section">
+    <h2>欢迎访问智行安全课题组官网</h2>
+    <p style="text-align:center;">
+        本课题组围绕交通事故调查、自动驾驶安全测试，
+        开展理论研究与工程实践相结合的科研工作。
+    </p>
 </div>
 
+<!-- 科学研究 -->
+<div class="section">
+    <h2>科学研究</h2>
+    <div class="research-grid">
+        <div class="research-item">
+            <h3>事故调查与事故重建</h3>
+            <p>开展事故深度调查与重建分析，建立事故数据库与分析模型。</p>
+        </div>
+
+        <div class="research-item">
+            <h3>自动驾驶测试场景生成</h3>
+            <p>构建典型风险场景库，提升自动驾驶系统测试覆盖能力。</p>
+        </div>
+
+        <div class="research-item">
+            <h3>自动驾驶安全测评</h3>
+            <p>建立自动驾驶安全评价指标体系与测试方法。</p>
+        </div>
+    </div>
 </div>
 
-<section>
-<h2>欢迎访问智行安全课题组官网</h2>
-<p>本课题组致力于事故调查、自动驾驶安全测试与工程实践研究。</p>
-</section>
+<!-- 关于我们 -->
+<div class="section">
+    <h2>关于我们</h2>
+
+    <div class="about-list">
+
+        <div class="about-item">
+            <img src="tec1.png" class="about-photo">
+            <div class="about-info">
+                <h3>
+                    <a href="https://teacher.xhu.edu.cn/qcyjt/lpf/list.psp" target="_blank">
+                        李平飞 副教授
+                    </a>
+                </h3>
+                <p>四川西华交通司法鉴定中心 常务副主任</p>
+                <p>电子科技大学博士生</p>
+                <p>
+                    长期从事交通安全与事故重建研究，
+                    发表期刊论文30余篇，
+                    累计主持/参与省部级/国家级科研项目20余项，
+                    累计获得国家级/省部级荣誉奖项10余项。
+                </p>
+            </div>
+        </div>
+
+        <div class="about-item">
+            <img src="tec2.png" class="about-photo">
+            <div class="about-info">
+                <h3>
+                    <a href="https://teacher.xhu.edu.cn/qcyjt/tzp/list.psp" target="_blank">
+                        谭正平 副教授
+                    </a>
+                </h3>
+                <p>司法鉴定人</p>
+                <p>重庆交通大学博士生</p>
+                <p>
+                    研究方向包括自动驾驶安全评价与测试用例生成，
+                    发表期刊论文10余篇，
+                    其中TOP级期刊1篇，
+                    累计主持/参与省部级/国家级科研项目10余项。
+                </p>
+            </div>
+        </div>
+
+    </div>
+</div>
 
 <footer>
-<p>© 2026 智行安全课题组</p>
+    © 2026 Intelligent Transportation Safety Research Group
 </footer>
 
 <script>
-let currentIndex = 0;
-const slides = document.querySelectorAll(".slide");
+    let index = 0;
+    const slides = document.querySelectorAll('.slide');
+    const caption = document.getElementById('caption');
 
-function showSlide(index){
-slides.forEach(slide=>slide.classList.remove("active"));
-slides[index].classList.add("active");
-}
+    const captions = [
+        "2025年NAIS工作会议",
+        "2022级研究生毕业留念",
+        "智能新能源汽车事故调查与鉴定技术研讨会"
+    ];
 
-function nextSlide(){
-currentIndex=(currentIndex+1)%slides.length;
-showSlide(currentIndex);
-}
+    function showSlide(i) {
+        slides.forEach(slide => slide.classList.remove('active'));
+        slides[i].classList.add('active');
+        caption.innerText = captions[i];
+    }
 
-function prevSlide(){
-currentIndex=(currentIndex-1+slides.length)%slides.length;
-showSlide(currentIndex);
-}
+    function changeSlide(step) {
+        index += step;
+        if (index >= slides.length) index = 0;
+        if (index < 0) index = slides.length - 1;
+        showSlide(index);
+    }
 
-setInterval(nextSlide,4000);
+    setInterval(() => changeSlide(1), 4000);
 </script>
 
 </body>
